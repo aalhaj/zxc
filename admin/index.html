@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="IngcoTools">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home Page Version 2 </title>
+    <link href="css/admin.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.rawgit.com/morteza/bootstrap-rtl/v3.3.4/dist/css/bootstrap-rtl.min.css">
+
+</head>
+
+
+<body >
+  <div class="container" >
+
+    <div class="row">
+      <div class="alert alert-danger none"><p></p></div>
+      <div class="alert alert-success none"><p></p></div>
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation"><a href="#users" aria-controls="users" role="tab" data-toggle="tab">الأعضاء</a></li>
+      <li role="presentation" class="active"><a href="#categories" aria-controls="categories" role="tab" data-toggle="tab">الفئات</a></li>
+      <li role="presentation"><a href="#products" aria-controls="products" role="tab" data-toggle="tab">المنتجات</a></li>
+      <li role="presentation"><a href="#our-work" aria-controls="our-work" role="tab" data-toggle="tab">أعمالنا</a></li>
+      <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">الإعدادات</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane " id="users" ng-controller="UserController" ng-init="getRecords()">
+        <div class="panel panel-default users-content">
+            <div class="panel-heading">الأعضاء
+              <a href="javascript:void(0);" class="glyphicon glyphicon-plus add-btn" onclick="$('.formData').slideToggle();"></a></div>
+
+            <div class="panel-body none formData">
+                <form class="form" name="userForm">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="name" ng-model="tempUserData.name"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" class="form-control" name="email" ng-model="tempUserData.email"/>
+                    </div>
+                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('.formData').slideUp();">Cancel</a>
+                    <a href="javascript:void(0);" class="btn btn-success" ng-hide="tempUserData.id" ng-click="addUser()">Add User</a>
+                    <a href="javascript:void(0);" class="btn btn-success" ng-hide="!tempUserData.id" ng-click="updateUser()">Update User</a>
+                </form>
+            </div>
+            <table class="table table-striped">
+                <tr>
+                    <th width="5%">#</th>
+                    <th width="20%">Name</th>
+                    <th width="30%">Email</th>
+                    <th width="14%">Created</th>
+                    <th width="10%"></th>
+                </tr>
+                <tr ng-repeat="user in users | orderBy:'-created'">
+                    <td>{{$index + 1}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.created}}</td>
+                    <td>
+                        <a href="javascript:void(0);" class="glyphicon glyphicon-edit" ng-click="editUser(user)"></a>
+                        <a href="javascript:void(0);" class="glyphicon glyphicon-trash" ng-click="deleteUser(user)"></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane active" id="categories" ng-controller="CategoryController" ng-init="getCategories()">
+        <div class="panel panel-default categories-content">
+            <div class="panel-heading">الفئات
+              <a href="javascript:void(0);" class="glyphicon glyphicon-plus add-btn" onclick="$('.formData').slideToggle();"></a></div>
+
+            <div class="panel-body none formData">
+
+              <form class="form" name="categoryForm">
+                <div id="category-image" class="form-group" >
+                    <label>الصورة</label>
+                    <div id="category-form-img" class="form-img">
+                      <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350%C3%97350&w=350&h=350" class="img-responsive" />
+                      <input id="category-img-field" type="text" class="form-control " name="image" ng-model="tempCategoryData.image"/>
+                    </div>
+                    <div class="form-img-ctrls">
+                      <a href="javascript:void(0);" id="upload-categ-img" class="btn btn-success">اختر صورة</a>
+                      <a href="javascript:void(0);" ng-hide="!tempCategoryData.image" class="btn btn-danger">حذف</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>الاسم عربي</label>
+                    <input type="text" class="form-control" name="name_ar" ng-model="tempCategoryData.name_ar"/>
+                </div>
+                <div class="form-group">
+                    <label>الاسم إنجليزي</label>
+                    <input type="text" class="form-control" name="name_en" ng-model="tempCategoryData.name_en"/>
+                </div>
+                <a href="javascript:void(0);" class="btn btn-warning" onclick="$('.formData').slideUp();">Cancel</a>
+                <a href="javascript:void(0);" class="btn btn-success" ng-hide="tempCategoryData.id" ng-click="addCategory()">إضافة</a>
+                <a href="javascript:void(0);" class="btn btn-success" ng-hide="!tempCategoryData.id" ng-click="updateCategory()">تعديل</a>
+              </form>
+            </div>
+            <table class="table table-striped">
+                <tr>
+                    <th width="5%">#</th>
+                    <th width="20%">الصورة</th>
+                    <th width="30%">الإسم</th>
+                    <th width="14%">الإسم</th>
+                    <th width="10%">آخر تعديل</th>
+                    <th width="10%"></th>
+                </tr>
+                <tr ng-repeat="category in categories | orderBy:'-created'">
+                    <td>{{$index + 1}}</td>
+                    <td>{{category.image}}</td>
+                    <td>{{category.name_ar}}</td>
+                    <td>{{category.name_en}}</td>
+                    <td>{{category.modified}}</td>
+                    <td>
+                        <a href="javascript:void(0);" class="glyphicon glyphicon-edit" ng-click="editCategory(category)"></a>
+                        <a href="javascript:void(0);" class="glyphicon glyphicon-trash" ng-click="deleteCategory(category)"></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="products" ng-controller="ProductController" ng-init="getProducts()">
+        <div class="panel panel-default products-content">
+            <div class="panel-heading">الفئات
+              <a href="javascript:void(0);" class="glyphicon glyphicon-plus add-btn" onclick="$('.formData').slideToggle();"></a></div>
+
+            <div class="panel-body none formData">
+              <form class="form" name="productForm">
+                <div class="form-group">
+                    <label>الصورة</label>
+                    <input type="text" class="form-control" name="image" ng-model="tempProductData.image"/>
+                </div>
+                <div class="form-group">
+                    <label>الاسم عربي</label>
+                    <input type="text" class="form-control" name="name_ar" ng-model="tempProductData.name_ar"/>
+                </div>
+                <div class="form-group">
+                    <label>الاسم إنجليزي</label>
+                    <input type="text" class="form-control" name="name_en" ng-model="tempProductData.name_en"/>
+                </div>
+                <div class="form-group">
+                    <label>رقم المنتج</label>
+                    <input type="text" class="form-control" name="product_num" ng-model="tempProductData.product_num"/>
+                </div>
+                <div class="form-group">
+                    <label>رقم التسجيل</label>
+                    <input type="text" class="form-control" name="patent_num" ng-model="tempProductData.patent_num"/>
+                </div>
+                <div class="form-group" ng-controller="CategoryController" ng-init="getCategories()">
+                    <label>الفئة</label>
+                    <select class="form-control" name="category"  ng-model="tempProductData.category">
+                      <option ng-repeat="categ in categories" value="{{categ.id}}">{{categ.name_ar}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>شرح عربي</label>
+                    <input type="text" class="form-control" name="description_ar" ng-model="tempProductData.description_ar"/>
+                </div>
+                <div class="form-group">
+                    <label>شرح إنجليزي</label>
+                    <input type="text" class="form-control" name="description_en" ng-model="tempProductData.description_en"/>
+                </div>
+
+                <a href="javascript:void(0);" class="btn btn-warning" onclick="$('.formData').slideUp();">Cancel</a>
+                <a href="javascript:void(0);" class="btn btn-success" ng-hide="tempCategoryData.id" ng-click="addProduct()">إضافة</a>
+                <a href="javascript:void(0);" class="btn btn-success" ng-hide="!tempCategoryData.id" ng-click="updateProduct()">تعديل</a>
+              </form>
+            </div>
+            <table class="table table-striped">
+                <tr>
+                    <th width="5%">#</th>
+                    <th width="10%">الصورة</th>
+                    <th width="10%">الاسم عربي</th>
+                    <th width="10%">الاسم إنجليزي</th>
+                    <th width="10%">رقم المنتج</th>
+                    <th width="10%">رقم التسجيل</th>
+                    <th width="20%">الشرح عربي</th>
+                    <th width="20%">الشرح إنجليزي</th>
+                    <th width="10%">آخر تعديل</th>
+                    <th width="10%"></th>
+                </tr>
+                <tr ng-repeat="product in products | orderBy:'-created'">
+                    <td>{{$index + 1}}</td>
+                    <td>{{product.image}}</td>
+                    <td>{{product.name_ar}}</td>
+                    <td>{{product.name_en}}</td>
+                    <td>{{product.product_num}}</td>
+                    <td>{{product.patent_num}}</td>
+                    <td>{{product.description_ar}}</td>
+                    <td>{{product.description_en}}</td>
+                    <td>{{product.modified}}</td>
+                    <td>
+                        <a href="javascript:void(0);" class="glyphicon glyphicon-edit" ng-click="editProduct(product)"></a>
+                        <a href="javascript:void(0);" class="glyphicon glyphicon-trash" ng-click="deleteProduct(product)"></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="our-work">...</div>
+      <div role="tabpanel" class="tab-pane" id=settings>...</div>
+    </div>
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="../assets/js/angular.js"></script>
+  <script src="../assets/js/angular-route.min.js"></script>
+  <script src="js/plupload.full.min.js"></script>
+  <script src="js/app.module.js"></script>
+  <script src="js/userController.js"></script>
+  <script src="js/categoryController.js"></script>
+  <script src="js/productController.js"></script>
+  <script src="js/custom.js"></script>
+</body>
+</html>

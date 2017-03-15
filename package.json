@@ -1,0 +1,29 @@
+{
+  "name": "ingco-tools",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ahmad H. Alhaj",
+  "license": "ISC",
+  "description": "Ingco Tools website",
+  "keywords": [
+    "Ingco",
+    "tools",
+    "tools",
+    "power"
+  ],
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-less": "^1.4.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "jit-grunt": "^0.10.0",
+    "yo": "^1.8.5"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
+}
